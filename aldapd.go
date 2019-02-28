@@ -2,12 +2,19 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/jessevdk/go-flags"
 	"github.com/op/go-logging"
-	"os"
+)
+
+const (
+	VERSION = "0.1"
 )
 
 var opts struct {
+	Version bool `long:"version" description:"Print aldapd's version'"`
+
 	Verbose []bool `short:"v" long:"verbose" description:"Show more verbose logs"`
 	Silent  bool   `short:"s" long:"silent" description:"Show critical messages only"`
 
@@ -22,6 +29,11 @@ var opts struct {
 func main() {
 	if _, err := flags.Parse(&opts); err != nil {
 		os.Exit(1)
+	}
+
+	if opts.Version {
+		fmt.Printf("aldapd version: %s\n", VERSION)
+		os.Exit(0)
 	}
 
 	if opts.Silent {
@@ -54,4 +66,3 @@ func main() {
 		}
 	}
 }
-
